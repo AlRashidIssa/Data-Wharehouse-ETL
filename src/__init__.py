@@ -6,5 +6,6 @@ import sys
 MAIN_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
 
 print("Main" + str(MAIN_DIR))
-os.makedirs(f"{MAIN_DIR}/database/arcive", exist_ok=True)
+os.makedirs(f"{MAIN_DIR}/database/archive", exist_ok=True)
 os.makedirs(f"{MAIN_DIR}/database/sql", exist_ok=True)
+os.makedirs(f"{MAIN_DIR}/database/clearnsave", exist_ok=True)
