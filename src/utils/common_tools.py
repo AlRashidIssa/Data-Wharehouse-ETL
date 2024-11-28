@@ -41,11 +41,11 @@ def get_size(file_path: str) -> str:
         # Get the file size in bytes
         file_size_bytes = os.path.getsize(file_path)
 
-        # Convert file size to GB (from bytes)
-        file_size_gb = file_size_bytes / (1024 ** 3)
+        # Convert file size to MB (from bytes)
+        file_size_mb = file_size_bytes / (1024 ** 2)
         
         # If the file size is 0 or None, raise an error
-        if file_size_gb <= 0.10 or file_size_bytes is None:
+        if file_size_mb <= 0.10 or file_size_bytes is None:
             error_msg = f"File size of '{file_path}' is zero or None."
             ErrorTrack(error_msg)
             raise ValueError(error_msg)
@@ -54,7 +54,7 @@ def get_size(file_path: str) -> str:
         file_size_gb = file_size_bytes / (1024 ** 3)
 
         # Return the size as a string in GB
-        return f"The size of the file is {file_size_gb:.10f} GB."
+        return f"The size of the file is {file_size_mb:.3f} MB."
 
     except Exception as e:
         # Catch any other exceptions
