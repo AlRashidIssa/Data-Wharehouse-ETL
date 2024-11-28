@@ -1,0 +1,1 @@
+# All thins , like head, shape, info, describe, nulles, doublicates, outliter
