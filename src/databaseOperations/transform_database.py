@@ -90,7 +90,7 @@ class TransformData(ITransformData):
 
             # Log transformation completion
             PipelineTrack("Data transformation completed successfully.")
-            
+
             df.to_csv(f"{df_wheresave}/df.csv")
             delay_summary.to_csv(f"{df_wheresave}/delay_summary.csv")
             PipelineTrack(f"Successfully Save new version database like csv file in {df_wheresave}.")
@@ -126,7 +126,8 @@ if __name__ == "__main__":
 
     # Instantiate transformer and transform data
     transformer = TransformData()
-    transformed_df, summary_df = transformer.transform(df)
+    transformed_df, summary_df = transformer.transform(df=df, 
+                                                       df_wheresave="/workspaces/Data-Wharehouse-ETL/database/clearnsave")
 
     # Display transformed data
     print("Transformed DataFrame:")
