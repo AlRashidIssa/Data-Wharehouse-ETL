@@ -1,4 +1,4 @@
-import sqlite3, sys, os
+import sys, os
 import pandas as pd
 from pathlib import Path
 from abc import ABC, abstractmethod
