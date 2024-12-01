@@ -2,4 +2,5 @@
 database
 logs
 *log
+visualize
 __pycache__
