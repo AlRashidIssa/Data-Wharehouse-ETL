@@ -1,0 +1,23 @@
+etl_config:
+  # Google Drive Dataset URL
+  dataset_url: "https://drive.google.com/file/d/139OEjxiFwxJtFQWaixF0fG4JSQyGp6EP/view?usp=sharing"
+  
+  # Directory for downloading and extracting data
+  archive_dir: "/workspaces/Data-Wharehouse-ETL/data/archive"
+  extracted_dir: "/workspaces/Data-Wharehouse-ETL/data/extracted"
+
+  # Database paths
+  db_path: "/workspaces/Data-Wharehouse-ETL/data/extracted/database.sqlite"
+  query: "SELECT * FROM otp"
+
+  # CSV paths for analysis
+  csv_path: "/workspaces/Data-Wharehouse-ETL/data/csv/train_data.csv"
+
+  # Output directory for reports
+  report_dir: "/workspaces/Data-Wharehouse-ETL/reports"
+  analysis_report_path: "/workspaces/Data-Wharehouse-ETL/reports/analysis_report.csv"
+
+  # Files for visualization
+  avg_delay_file: "/workspaces/Data-Wharehouse-ETL/database/clearnsave/delay_summary.csv"
+  train_status_file: "/workspaces/Data-Wharehouse-ETL/database/clearnsave/df.csv"
+  visualize_output_dir: "/workspaces/Data-Wharehouse-ETL/visualize"

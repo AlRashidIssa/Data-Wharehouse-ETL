@@ -14,7 +14,7 @@ from databaseOperations.extract_database import SQLiteExtractor
 from databaseOperations.transform_database import TransformData
 from analysis.load_from_csv import CSVLoader
 from analysis.understandDataset import DataSetAnalyzer
-from analysis.visualize_dataset import DataVisualizer
+from analysis.visualize_dataset import TrainVisualization
 
 
 def etl_pipeline():
@@ -69,12 +69,14 @@ def etl_pipeline():
         PipelineTrack(f"Dataset analysis report saved at: {analysis_report_path}")
 
         # Step 7: Visualize the dataset
-        PipelineTrack("Visualizing the dataset...")
-        visualizer = DataVisualizer(save_dir=f"{MAIN_DIR}/reports/visualizations")
-        visualizations_report = visualizer.visualize_and_save(transformed_data)
-        visualizations_report_path = f"{MAIN_DIR}/reports/visualizations_report.csv"
-        visualizations_report.to_csv(visualizations_report_path, index=False)
-        PipelineTrack(f"Visualizations report saved at: {visualizations_report_path}")
+        avg_delay_file = "/workspaces/Data-Wharehouse-ETL/database/clearnsave/delay_summary.csv"
+        train_status_file = "/workspaces/Data-Wharehouse-ETL/database/clearnsave/df.csv"
+        visualizer = TrainVisualization(avg_delay_file=avg_delay_file,train_status_file=train_status_file, output_dir="/workspaces/Data-Wharehouse-ETL/visualize")
+        PipelineTrack("Train Visualization Pipeline")
+        visualizer.load_data()
+        visualizer.process_data()
+        visualizer.create_plots()
+        PipelineTrack("Train Visualization Pipeline")
 
         PipelineTrack("ETL pipeline execution completed successfully.")
 
