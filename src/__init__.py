@@ -8,6 +8,8 @@ MAIN_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
 print("Main" + str(MAIN_DIR))
 os.makedirs(f"{MAIN_DIR}/database/archive", exist_ok=True)
 os.makedirs(f"{MAIN_DIR}/database/sql", exist_ok=True)
-os.makedirs(f"{MAIN_DIR}/database/clearnsave", exist_ok=True)
+os.makedirs(f"{MAIN_DIR}/database/trasformer_data", exist_ok=True)
+os.makedirs(f"{MAIN_DIR}/database/csv_data", exist_ok=True)
+
 os.makedirs(f"{MAIN_DIR}/visualize", exist_ok=True)
 
