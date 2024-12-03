@@ -61,6 +61,15 @@ def config_yaml_reader(file_path: Optional[str] = None) -> Dict[str, Any]:
         ErrorTrack(f"Error parsing YAML file: {e}")
         raise ValueError(f"Error parsing YAML file: {e}")
 
-
-if __name__ == "__main__":
-    configs = config_yaml_reader(None)
+configs = config_yaml_reader(None)
+DATASETURL = configs["etl_config"]["dataset_url" ]
+ARCHIVEDIR = configs["etl_config"]["archive_dir"]
+DATABASENAME = configs["etl_config"]["database_name"]
+EXTRACTEDDIR = configs["etl_config"]["extracted_dir"]
+DBPATH =  configs["etl_config"]["db_path"]
+QUERY = configs["etl_config"]["query"]
+AVGDELAYFILE = configs["etl_config"]["avg_delay_file"]
+TRAINSTATUSFILES = configs["etl_config"]["train_status_file"]
+VISUALIZEOUTPUTDIR = configs["etl_config"]["visualize_output_dir"]
+DATAWHARESAVE = configs["etl_config"]["data_wharesave"]
+CSVDATA = configs["etl_config"]["csv_data"]

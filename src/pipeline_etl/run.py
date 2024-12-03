@@ -1,8 +1,5 @@
-import sys
-import os
+import sys, os
 import pandas as pd
-from pathlib import Path
-
 # Define MAIN_DIR to point to the project root directory
 MAIN_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
 sys.path.append(MAIN_DIR)
@@ -15,7 +12,7 @@ from databaseOperations.transform_database import TransformData
 from analysis.load_from_csv import CSVLoader
 from analysis.understandDataset import DataSetAnalyzer
 from analysis.visualize_dataset import TrainVisualization
-
+from config import *
 
 def etl_pipeline():
     """
@@ -25,53 +22,49 @@ def etl_pipeline():
         # Step 1: Load dataset from Google Drive
         PipelineTrack("Starting dataset ingestion from Google Drive...")
         drive_loader = LoadFromDrive()
-        dataset_url = "https://drive.google.com/file/d/139OEjxiFwxJtFQWaixF0fG4JSQyGp6EP/view?usp=sharing"
-        archive_dir = f"{MAIN_DIR}/data/archive"
-        dataset_name = "train_data"
-        drive_loader.load(url=dataset_url, save_archive=archive_dir, name=dataset_name)
+        drive_loader.load(url=DATASETURL, save_archive=ARCHIVEDIR, name=DATABASENAME)
         PipelineTrack("Dataset successfully downloaded.")
 
         # Step 2: Unzip the dataset
         PipelineTrack("Unzipping dataset...")
         unzipper = UnzipFile()
-        zip_path = f"{archive_dir}/{dataset_name}.zip"
-        extracted_dir = f"{MAIN_DIR}/data/extracted"
-        unzipper.extract(zip_path=zip_path, extract_to=extracted_dir)
+        zip_path = os.path.join(ARCHIVEDIR, f"{DATABASENAME}.zip")
+        unzipper.unzip(zip_path=zip_path, extract_to=EXTRACTEDDIR)
         PipelineTrack("Dataset successfully unzipped.")
 
         # Step 3: Extract data from SQLite database
         PipelineTrack("Extracting data from SQLite database...")
-        db_path = f"{extracted_dir}/database.sqlite"
-        query = "SELECT * FROM otp"
+        db_path = os.path.join(EXTRACTEDDIR, f"{DATABASENAME}.sqlite")
         extractor = SQLiteExtractor()
-        extracted_data = extractor.extract(database=db_path, query=query)
-        PipelineTrack("Data extraction completed. Rows fetched: {}".format(len(extracted_data)))
+        extractor.connect(db_path=db_path)
+        EXTRACTEDDATA = extractor.execute_query(query=QUERY)
+        EXTRACTEDDATA.to_csv(f"{CSVDATA}/csv_from_sql.csv")
+        PipelineTrack(f"Data extraction completed. Rows fetched: {len(EXTRACTEDDATA)}")
 
         # Step 4: Transform the data
         PipelineTrack("Transforming data...")
         transformer = TransformData()
-        transformed_data = transformer.transform(extracted_data)
+        TRANSFORMEDDATA = transformer.transform(df=EXTRACTEDDATA, df_wheresave=DATAWHARESAVE)
         PipelineTrack("Data transformation completed.")
 
         # Step 5: Load data from CSV (if needed for additional analysis)
         PipelineTrack("Loading data from CSV for analysis...")
         csv_loader = CSVLoader()
-        csv_path = f"{MAIN_DIR}/data/csv/train_data.csv"  # Example CSV path
-        csv_data = csv_loader.load(csv_path)
+        csv_data = csv_loader.load_csv(file_path=f"{CSVDATA}csv_from_sql.csv")
         PipelineTrack("CSV data loaded successfully.")
 
         # Step 6: Analyze the dataset
         PipelineTrack("Analyzing the dataset...")
         analyzer = DataSetAnalyzer()
-        analysis_report = analyzer.analyze(transformed_data)
-        analysis_report_path = f"{MAIN_DIR}/reports/analysis_report.csv"
-        analysis_report.to_csv(analysis_report_path, index=False)
-        PipelineTrack(f"Dataset analysis report saved at: {analysis_report_path}")
+        analysis_report = analyzer.analyze(csv_data)
+        analysis_report = pd.DataFrame(analysis_report)
+        analysis_report.to_csv(f"{VISUALIZEOUTPUTDIR}/REPORT.csv")
+        PipelineTrack(f"Dataset analysis report saved at: {DATAWHARESAVE}")
 
         # Step 7: Visualize the dataset
-        avg_delay_file = "/workspaces/Data-Wharehouse-ETL/database/clearnsave/delay_summary.csv"
-        train_status_file = "/workspaces/Data-Wharehouse-ETL/database/clearnsave/df.csv"
-        visualizer = TrainVisualization(avg_delay_file=avg_delay_file,train_status_file=train_status_file, output_dir="/workspaces/Data-Wharehouse-ETL/visualize")
+        visualizer = TrainVisualization(avg_delay_file=AVGDELAYFILE,
+                                        train_status_file=TRAINSTATUSFILES, 
+                                        output_dir=VISUALIZEOUTPUTDIR)
         PipelineTrack("Train Visualization Pipeline")
         visualizer.load_data()
         visualizer.process_data()

@@ -1,23 +1,22 @@
 etl_config:
   # Google Drive Dataset URL
   dataset_url: "https://drive.google.com/file/d/139OEjxiFwxJtFQWaixF0fG4JSQyGp6EP/view?usp=sharing"
-  
+  database_name: database
+
   # Directory for downloading and extracting data
-  archive_dir: "/workspaces/Data-Wharehouse-ETL/data/archive"
-  extracted_dir: "/workspaces/Data-Wharehouse-ETL/data/extracted"
+  archive_dir: "/workspaces/Data-Wharehouse-ETL/database/archive"
+  extracted_dir: "/workspaces/Data-Wharehouse-ETL/database/sql"
 
   # Database paths
   db_path: "/workspaces/Data-Wharehouse-ETL/data/extracted/database.sqlite"
   query: "SELECT * FROM otp"
 
-  # CSV paths for analysis
-  csv_path: "/workspaces/Data-Wharehouse-ETL/data/csv/train_data.csv"
-
-  # Output directory for reports
-  report_dir: "/workspaces/Data-Wharehouse-ETL/reports"
-  analysis_report_path: "/workspaces/Data-Wharehouse-ETL/reports/analysis_report.csv"
+  csv_data: "/workspaces/Data-Wharehouse-ETL/database/csv_data"
+  # Output directory 
+  data_wharesave: "/workspaces/Data-Wharehouse-ETL/database/trasformer_data"
+  analysis_report_path: "/workspaces/Data-Wharehouse-ETL/database/trasformer_data"
 
   # Files for visualization
-  avg_delay_file: "/workspaces/Data-Wharehouse-ETL/database/clearnsave/delay_summary.csv"
-  train_status_file: "/workspaces/Data-Wharehouse-ETL/database/clearnsave/df.csv"
+  avg_delay_file: "/workspaces/Data-Wharehouse-ETL/database/trasformer_data/delay_summary.csv"
+  train_status_file: "/workspaces/Data-Wharehouse-ETL/database/trasformer_data/df.csv"
   visualize_output_dir: "/workspaces/Data-Wharehouse-ETL/visualize"
