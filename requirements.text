@@ -2,3 +2,5 @@ db-sqlite3
 pandas
 sqlite-database
 pyyaml
+schedule
+
